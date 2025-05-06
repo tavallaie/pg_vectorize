@@ -1,0 +1,15 @@
+[project]
+name = "pgvectorzie"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "psycopg>=3.2.7",
+]
+[project.scripts]
+pgvectorzie = "pgvectorzie:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
