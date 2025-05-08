@@ -5,7 +5,8 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.9"
 dependencies = [
-    "psycopg>=3.2.7",
+    "psycopg-pool>=3.2.6",
+    "psycopg[binary]>=3.2.7",
 ]
 [project.scripts]
 pgvectorzie = "pgvectorzie:main"
