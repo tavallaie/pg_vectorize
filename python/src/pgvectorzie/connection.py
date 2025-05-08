@@ -1,5 +1,3 @@
-# pgvectorize/connection.py
-
 from psycopg_pool import ConnectionPool
 from .config import VectorizeConfig
 from typing import Optional

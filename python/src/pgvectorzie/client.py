@@ -10,12 +10,10 @@ class PgVectorize:
     def __init__(self, cfg: VectorizeConfig):
         self.cfg = cfg
         self.conn = PGConnection(cfg)
-        # ensure the extension is available
         self.conn.execute("CREATE EXTENSION IF NOT EXISTS vectorize CASCADE;")
 
     def _alter_system(self, key: str, value: Any):
         """Cluster-wide override + reload."""
-        # properly quote strings
         if isinstance(value, str):
             safe = value.replace("'", "''")
             literal = f"'{safe}'"
@@ -23,11 +21,9 @@ class PgVectorize:
             literal = str(value)
 
         with self.conn.pool.connection() as conn:
-            # Switch to autocommit so ALTER SYSTEM isn’t inside a transaction
             conn.autocommit = True
             conn.execute(f"ALTER SYSTEM SET {key} = {literal};")
             conn.execute("SELECT pg_reload_conf();")
-            # Restore default transactional behavior
             conn.autocommit = False
 
     def set_guc(self, guc: VectorizeGuc, value: Any):
@@ -39,8 +35,6 @@ class PgVectorize:
     def get_guc(self, guc: VectorizeGuc) -> Optional[str]:
         row = self.conn.execute(f"SHOW {guc.value};", fetch=True)
         return row[0][0] if row else None
-
-    # ——— Core APIs ———————————————————————————————————————————————————————
 
     def init_table(
         self,
