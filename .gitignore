@@ -12,3 +12,4 @@ META.json
 /vectorize-*
 site/
 poetry.lock
+__pycache__/
